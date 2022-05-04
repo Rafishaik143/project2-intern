@@ -1,0 +1,25 @@
+{
+  "name": "project2-intern",
+  "version": "1.0.0",
+  "description": "\"our second Project.created Apis for intern\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rafishaik143/project2-intern.git"
+  },
+  "author": "\"grou-93\"",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rafishaik143/project2-intern/issues"
+  },
+  "homepage": "https://github.com/Rafishaik143/project2-intern#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.2",
+    "nodemon": "^2.0.16"
+  }
+}
