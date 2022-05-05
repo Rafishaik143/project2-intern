@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 const collegeModel = require("../models/collegeModel");
 const internModel = require("../models/internModel");
 
@@ -83,7 +83,6 @@ const createColleges = async function (req, res) {
         data: newCollege,
       });
   } catch (error) {
-    console.log(error);
     res.status(500).send({ status: false, message: error.message });
   }
 };
@@ -92,8 +91,19 @@ const colleageDetails = async function (req, res) {
   try {
     const colleagName = req.query.name
 
-    const college = await collegeModel.findOne({name: colleagName});
-    const interData = await internModel.find({collegeId: college._id});
+    if (!colleagName) {
+      return res.status(404).send({ status: false, msg: "valid query is mandatory" })
+    }
+
+    const college = await collegeModel.findOne({ name: colleagName });
+    if (!college) {
+      return res.status(404).send({ status: false, msg: "no such colleage present" })
+    }
+    const interData = await internModel.find({ collegeId: college._id });
+    if (!interData) {
+      return res.status(404).send({ status: false, msg: "no such intern" })
+    }
+
     const interns = interData.map(intern => {
       return {
         _id: intern._id,
@@ -103,6 +113,8 @@ const colleageDetails = async function (req, res) {
       }
     });
 
+
+
     const data = {
       name: college.name,
       fullName: college.fullName,
@@ -111,11 +123,12 @@ const colleageDetails = async function (req, res) {
     };
 
     res.status(200).send({
-        status: true,
-        data: data,
-      });
+      status: true,
+      data: data,
+    });
 
   } catch (error) {
+    res.status(500).send({ status: false, message: error.message });
 
   }
 

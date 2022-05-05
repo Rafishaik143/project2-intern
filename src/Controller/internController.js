@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 const collegeModel = require("../models/collegeModel");
 const internModel = require("../models/internModel");
 
@@ -66,7 +66,7 @@ const createInterns = async function (req, res) {
           .status(400)
           .send({
             status: false,
-            message: `Mobile should be a valid number`,
+            message: `provide 10 digits Mobile Number`,
           });
         return;
       }
@@ -89,6 +89,12 @@ const createInterns = async function (req, res) {
       res.status(400).send({ status: false, msg: "College ID is required" });
       return;
     }
+    if (!isValidObjectId(collegeId)) {
+      res.status(400).send({ status: false, msg: "College ID iS not valid" });
+      return;
+    }
+    
+
     //Validation ends
     //Validating College ID
     const isValidCollegeId = await collegeModel.findById({ _id: collegeId });
