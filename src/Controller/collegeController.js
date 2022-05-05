@@ -47,6 +47,11 @@ const createColleges = async function (req, res) {
         .send({ status: false, msg: "College Logo link is required" });
       return;
     }
+    if(!(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/.test(logoLink))){
+
+    res.status(400).send({ status: false, message: 'Please provide valid URL'})
+    return;
+  }
     if (isDeleted == true) {
       res
         .status(400)
