@@ -4,6 +4,7 @@ const internModel = require("../models/internModel");
 
 const isValid = function (value) {
   if (typeof value === "undefined" || value === null) return false;
+  //if (!value) return false;
   if (typeof value === "string" && value.trim().length === 0) return false;
   return true;
 };
@@ -24,7 +25,7 @@ const createColleges = async function (req, res) {
           status: false,
           msg: "Invalid request parameters. Please provide College Details",
         });
-        return
+      return
     }
     //Extract Params
     const { name, fullName, logoLink, isDeleted } = requestBody;
@@ -53,7 +54,7 @@ const createColleges = async function (req, res) {
       return;
     }
     //Validation Ends
-    const isNameAlreadyUsed = await collegeModel.findOne({ name}); 
+    const isNameAlreadyUsed = await collegeModel.findOne({ name });
     if (isNameAlreadyUsed) {
       res
         .status(400)
@@ -63,7 +64,7 @@ const createColleges = async function (req, res) {
         });
       return;
     }
-    const isfullNameAlreadyUsed = await collegeModel.findOne({fullName}); 
+    const isfullNameAlreadyUsed = await collegeModel.findOne({ fullName });
     if (isfullNameAlreadyUsed) {
       res
         .status(400)
@@ -87,4 +88,39 @@ const createColleges = async function (req, res) {
   }
 };
 
-module.exports.createColleges=createColleges
+const colleageDetails = async function (req, res) {
+  try {
+    const colleagName = req.query.name
+
+    const college = await collegeModel.findOne({name: colleagName});
+    const interData = await internModel.find({collegeId: college._id});
+    const interns = interData.map(intern => {
+      return {
+        _id: intern._id,
+        name: intern.name,
+        email: intern.email,
+        mobile: intern.mobile
+      }
+    });
+
+    const data = {
+      name: college.name,
+      fullName: college.fullName,
+      logoLink: college.logoLink,
+      interns: interns
+    };
+
+    res.status(200).send({
+        status: true,
+        data: data,
+      });
+
+  } catch (error) {
+
+  }
+
+};
+
+
+module.exports.createColleges = createColleges
+module.exports.colleageDetails = colleageDetails
