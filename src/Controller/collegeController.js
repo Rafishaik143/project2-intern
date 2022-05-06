@@ -88,7 +88,7 @@ const createColleges = async function (req, res) {
 
 const colleageDetails = async function (req, res) {
   try {
-    const colleagName = req.query.name
+    const colleagName = req.query.collegeName
 
     if (!colleagName) {
       return res.status(404).send({ status: false, msg: "valid query is mandatory" })
