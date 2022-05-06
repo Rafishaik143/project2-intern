@@ -80,7 +80,13 @@ const createInterns = async function (req, res) {
           });
         return;
       }
-     
+    
+     if (isDeleted == true) {
+        return res
+          .status(400)
+          .send({ status: false, message: "Cannot input isDeleted as true while registering" });
+      }
+    
     if (!isValid(collegeId)) {
       res.status(400).send({ status: false, msg: "College ID is required" });
       return;
