@@ -94,11 +94,11 @@ const colleageDetails = async function (req, res) {
       return res.status(404).send({ status: false, msg: "valid query is mandatory" })
     }
 
-    const college = await collegeModel.findOne({ name: colleagName });
+    const college = await collegeModel.findOne({$and:[{ name: colleagName },{isDeleted: false}]});
     if (!college) {
       return res.status(404).send({ status: false, msg: "no such colleage present" })
     }
-    const interData = await internModel.find({ collegeId: college._id });
+   const interData = await internModel.find({$and:[{ collegeId: college._id },{isDeleted: false}]});
     if (!interData) {
       return res.status(404).send({ status: false, msg: "no such intern" })
     }
